@@ -27,11 +27,11 @@ data "vsphere_network" "network" {
 }
 
 data "vsphere_virtual_machine" "template" {
-  name          = "/${var.datacenter}/vm/RHEL7_ShadowMan"
+  name          = "/${var.datacenter}/vm/RHEL8_ShadowMan"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
-resource "vsphere_virtual_machine" "nick" {
-  name             = "nick2.shadowman.dev"
+resource "vsphere_virtual_machine" "test" {
+  name             = "test.shadowman.dev"
   resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
   datastore_id     = data.vsphere_datastore.datastore.id
   folder           = "Discovered virtual machine"
@@ -50,7 +50,7 @@ resource "vsphere_virtual_machine" "nick" {
   wait_for_guest_ip_timeout  = -1
 
   disk {
-    label            = "newgit"
+    label            = "test"
     thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
     size             = data.vsphere_virtual_machine.template.disks.0.size
   }
@@ -62,6 +62,7 @@ resource "vsphere_virtual_machine" "nick" {
   }
 }
 
-output "vm_name_nick" {
-  value = vsphere_virtual_machine.nick.name
+output "vm_name_test" {
+  value = vsphere_virtual_machine.test.name
 }
+

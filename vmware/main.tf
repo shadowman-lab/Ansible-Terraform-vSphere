@@ -30,8 +30,8 @@ data "vsphere_virtual_machine" "template" {
   name          = "/${var.datacenter}/vm/RHEL8_ShadowMan"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
-resource "vsphere_virtual_machine" "test" {
-  name             = "test.shadowman.dev"
+resource "vsphere_virtual_machine" "terra_test_vm" {
+  name             = "terra_test_vm"
   resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
   datastore_id     = data.vsphere_datastore.datastore.id
   folder           = "Discovered virtual machine"
@@ -50,7 +50,7 @@ resource "vsphere_virtual_machine" "test" {
   wait_for_guest_ip_timeout  = -1
 
   disk {
-    label            = "test"
+    label            = "terra_test_vm"
     thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
     size             = data.vsphere_virtual_machine.template.disks.0.size
   }
@@ -62,7 +62,7 @@ resource "vsphere_virtual_machine" "test" {
   }
 }
 
-output "vm_name_test" {
-  value = vsphere_virtual_machine.test.name
+output "vm_name_terra_test_vm" {
+  value = vsphere_virtual_machine.terra_test_vm.name
 }
 

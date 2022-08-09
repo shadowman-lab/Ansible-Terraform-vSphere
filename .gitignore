@@ -1,5 +1,4 @@
 # Terraform lock
 .terraform.lock.hcl
 
-# Generated directory
-vmware/.terraform/
+

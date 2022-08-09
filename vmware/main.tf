@@ -27,7 +27,7 @@ data "vsphere_network" "network" {
 }
 
 data "vsphere_virtual_machine" "template" {
-  name          = "/${var.datacenter}/vm/RHEL8_ShadowMan"
+  name          = "/${var.datacenter}/vm/RHEL7_ShadowMan"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 resource "vsphere_virtual_machine" "alex" {
@@ -65,3 +65,4 @@ resource "vsphere_virtual_machine" "alex" {
 output "vm_name_alex" {
   value = vsphere_virtual_machine.alex.name
 }
+

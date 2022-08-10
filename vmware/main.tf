@@ -101,5 +101,3 @@ resource "vsphere_virtual_machine" "michael" {
 output "vm_name_michael" {
   value = vsphere_virtual_machine.michael.name
 }
-
-

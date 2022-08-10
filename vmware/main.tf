@@ -30,8 +30,8 @@ data "vsphere_virtual_machine" "template" {
   name          = "/${var.datacenter}/vm/RHEL8_ShadowMan"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
-resource "vsphere_virtual_machine" "alex" {
-  name             = "alex.shadowman.dev"
+resource "vsphere_virtual_machine" "server1" {
+  name             = "server1.shadowman.dev"
   resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
   datastore_id     = data.vsphere_datastore.datastore.id
   folder           = "Discovered virtual machine"
@@ -50,7 +50,7 @@ resource "vsphere_virtual_machine" "alex" {
   wait_for_guest_ip_timeout  = -1
 
   disk {
-    label            = "alex"
+    label            = "server1"
     thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
     size             = data.vsphere_virtual_machine.template.disks.0.size
   }
@@ -62,12 +62,12 @@ resource "vsphere_virtual_machine" "alex" {
   }
 }
 
-output "vm_name_alex" {
-  value = vsphere_virtual_machine.alex.name
+output "vm_name_server1" {
+  value = vsphere_virtual_machine.server1.name
 }
 
-resource "vsphere_virtual_machine" "michael" {
-  name             = "michael.shadowman.dev"
+resource "vsphere_virtual_machine" "server2" {
+  name             = "server2.shadowman.dev"
   resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
   datastore_id     = data.vsphere_datastore.datastore.id
   folder           = "Discovered virtual machine"
@@ -86,7 +86,7 @@ resource "vsphere_virtual_machine" "michael" {
   wait_for_guest_ip_timeout  = -1
 
   disk {
-    label            = "michael"
+    label            = "server2"
     thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
     size             = data.vsphere_virtual_machine.template.disks.0.size
   }
@@ -98,6 +98,43 @@ resource "vsphere_virtual_machine" "michael" {
   }
 }
 
-output "vm_name_michael" {
-  value = vsphere_virtual_machine.michael.name
+output "vm_name_server2" {
+  value = vsphere_virtual_machine.server2.name
 }
+
+resource "vsphere_virtual_machine" "server3" {
+  name             = "server3.shadlowman.dev"
+  resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
+  datastore_id     = data.vsphere_datastore.datastore.id
+  folder           = "Discovered virtual machine"
+  firmware         = data.vsphere_virtual_machine.template.firmware
+  scsi_type        = data.vsphere_virtual_machine.template.scsi_type
+
+  num_cpus = data.vsphere_virtual_machine.template.num_cpus
+  memory   = data.vsphere_virtual_machine.template.memory
+
+  network_interface {
+    network_id = data.vsphere_network.network.id
+    adapter_type = data.vsphere_virtual_machine.template.network_interface_types[0]
+  }
+
+  wait_for_guest_net_timeout = 10
+  wait_for_guest_ip_timeout  = -1
+
+  disk {
+    label            = "server3"
+    thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
+    size             = data.vsphere_virtual_machine.template.disks.0.size
+  }
+
+  guest_id = data.vsphere_virtual_machine.template.guest_id
+
+  clone {
+    template_uuid = data.vsphere_virtual_machine.template.id
+  }
+}
+
+output "vm_name_server3" {
+  value = vsphere_virtual_machine.server3.name
+}
+

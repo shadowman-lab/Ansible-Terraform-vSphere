@@ -137,4 +137,3 @@ resource "vsphere_virtual_machine" "server3" {
 output "vm_name_server3" {
   value = vsphere_virtual_machine.server3.name
 }
-

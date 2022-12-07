@@ -30,8 +30,8 @@ data "vsphere_virtual_machine" "template" {
   name          = "/${var.datacenter}/vm/RHEL8_ShadowMan"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
-resource "vsphere_virtual_machine" "terraform_test_vm" {
-  name             = "terraform_test_vm.shadowman.dev"
+resource "vsphere_virtual_machine" "publix" {
+  name             = "publix.shadowman.dev"
   resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
   datastore_id     = data.vsphere_datastore.datastore.id
   folder           = "Discovered virtual machine"
@@ -50,7 +50,7 @@ resource "vsphere_virtual_machine" "terraform_test_vm" {
   wait_for_guest_ip_timeout  = -1
 
   disk {
-    label            = "terraform_test_vm"
+    label            = "publix"
     thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
     size             = data.vsphere_virtual_machine.template.disks.0.size
   }
@@ -62,7 +62,7 @@ resource "vsphere_virtual_machine" "terraform_test_vm" {
   }
 }
 
-output "vm_name_terraform_test_vm" {
-  value = vsphere_virtual_machine.terraform_test_vm.name
+output "vm_name_publix" {
+  value = vsphere_virtual_machine.publix.name
 }
 

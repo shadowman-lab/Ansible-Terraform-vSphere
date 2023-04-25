@@ -30,8 +30,8 @@ data "vsphere_virtual_machine" "template" {
   name          = "/${var.datacenter}/vm/RHEL8_ShadowMan"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
-resource "vsphere_virtual_machine" "rccl" {
-  name             = "rccl.shadowman.dev"
+resource "vsphere_virtual_machine" "ferguson1" {
+  name             = "ferguson1.shadowman.dev"
   resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
   datastore_id     = data.vsphere_datastore.datastore.id
   folder           = "Discovered virtual machine"
@@ -50,7 +50,7 @@ resource "vsphere_virtual_machine" "rccl" {
   wait_for_guest_ip_timeout  = -1
 
   disk {
-    label            = "rccl"
+    label            = "ferguson1"
     thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
     size             = data.vsphere_virtual_machine.template.disks.0.size
   }
@@ -62,7 +62,7 @@ resource "vsphere_virtual_machine" "rccl" {
   }
 }
 
-output "vm_name_rccl" {
-  value = vsphere_virtual_machine.rccl.name
+output "vm_name_ferguson1" {
+  value = vsphere_virtual_machine.ferguson1.name
 }
 

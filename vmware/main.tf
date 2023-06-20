@@ -27,11 +27,11 @@ data "vsphere_network" "network" {
 }
 
 data "vsphere_virtual_machine" "template" {
-  name          = "/${var.datacenter}/vm/RHEL7_ShadowMan"
+  name          = "/${var.datacenter}/vm/RHEL8_ShadowMan"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
-resource "vsphere_virtual_machine" "terraformtest" {
-  name             = "terraformtest.shadowman.dev"
+resource "vsphere_virtual_machine" "dttest" {
+  name             = "dttest.shadowman.dev"
   resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
   datastore_id     = data.vsphere_datastore.datastore.id
   folder           = "Discovered virtual machine"
@@ -50,7 +50,7 @@ resource "vsphere_virtual_machine" "terraformtest" {
   wait_for_guest_ip_timeout  = -1
 
   disk {
-    label            = "terraformtest"
+    label            = "dttest"
     thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
     size             = data.vsphere_virtual_machine.template.disks.0.size
   }
@@ -62,12 +62,12 @@ resource "vsphere_virtual_machine" "terraformtest" {
   }
 }
 
-output "vm_name_terraformtest" {
-  value = vsphere_virtual_machine.terraformtest.name
+output "vm_name_dttest" {
+  value = vsphere_virtual_machine.dttest.name
 }
 
-resource "vsphere_virtual_machine" "terraform2" {
-  name             = "terraform2.shadowman.dev"
+resource "vsphere_virtual_machine" "dttest2" {
+  name             = "dttest2.shadowman.dev"
   resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
   datastore_id     = data.vsphere_datastore.datastore.id
   folder           = "Discovered virtual machine"
@@ -86,7 +86,7 @@ resource "vsphere_virtual_machine" "terraform2" {
   wait_for_guest_ip_timeout  = -1
 
   disk {
-    label            = "terraform2"
+    label            = "dttest2"
     thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
     size             = data.vsphere_virtual_machine.template.disks.0.size
   }
@@ -98,7 +98,7 @@ resource "vsphere_virtual_machine" "terraform2" {
   }
 }
 
-output "vm_name_terraform2" {
-  value = vsphere_virtual_machine.terraform2.name
+output "vm_name_dttest2" {
+  value = vsphere_virtual_machine.dttest2.name
 }
 

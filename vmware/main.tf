@@ -27,11 +27,11 @@ data "vsphere_network" "network" {
 }
 
 data "vsphere_virtual_machine" "template" {
-  name          = "/${var.datacenter}/vm/RHEL7_ShadowMan"
+  name          = "/${var.datacenter}/vm/RHEL8_ShadowMan"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
-resource "vsphere_virtual_machine" "alex" {
-  name             = "alex.shadowman.dev"
+resource "vsphere_virtual_machine" "kjztf" {
+  name             = "kjztf.shadowman.dev"
   resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
   datastore_id     = data.vsphere_datastore.datastore.id
   folder           = "Discovered virtual machine"
@@ -50,7 +50,7 @@ resource "vsphere_virtual_machine" "alex" {
   wait_for_guest_ip_timeout  = -1
 
   disk {
-    label            = "alex"
+    label            = "kjztf"
     thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
     size             = data.vsphere_virtual_machine.template.disks.0.size
   }
@@ -62,7 +62,7 @@ resource "vsphere_virtual_machine" "alex" {
   }
 }
 
-output "vm_name_alex" {
-  value = vsphere_virtual_machine.alex.name
+output "vm_name_kjztf" {
+  value = vsphere_virtual_machine.kjztf.name
 }
 

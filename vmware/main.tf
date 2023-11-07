@@ -30,8 +30,8 @@ data "vsphere_virtual_machine" "template" {
   name          = "/${var.datacenter}/vm/RHEL8_ShadowMan"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
-resource "vsphere_virtual_machine" "terraform20231107" {
-  name             = "terraform20231107.shadowman.dev"
+resource "vsphere_virtual_machine" "brian2023" {
+  name             = "brian2023.shadowman.dev"
   resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
   datastore_id     = data.vsphere_datastore.datastore.id
   folder           = "Discovered virtual machine"
@@ -50,7 +50,7 @@ resource "vsphere_virtual_machine" "terraform20231107" {
   wait_for_guest_ip_timeout  = -1
 
   disk {
-    label            = "terraform20231107"
+    label            = "brian2023"
     thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
     size             = data.vsphere_virtual_machine.template.disks.0.size
   }
@@ -62,7 +62,7 @@ resource "vsphere_virtual_machine" "terraform20231107" {
   }
 }
 
-output "vm_name_terraform20231107" {
-  value = vsphere_virtual_machine.terraform20231107.name
+output "vm_name_brian2023" {
+  value = vsphere_virtual_machine.brian2023.name
 }
 
